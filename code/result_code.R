@@ -4,6 +4,7 @@ lamb <- c(0, 0.01, 0.02, 0.03, 0.05, 0.07, 0.1, 0.15 , 1)
 
 load(file = 'C:/Users/kyucheol/Desktop/kma_data/results_list_1128.RData')
 load(file = 'C:/Users/kyucheol/Desktop/kma_data/result_refit.RData')
+load(file = 'C:/Users/kyucheol/Desktop/kma_data/scad_result.RData')
 
 abic_mat_fun <- function(result_list, aic_bic){
   # aic : 2, bic : 3
@@ -49,16 +50,21 @@ non_refit_aic <- abic_mat_fun(result_list = results_list, 2)
 non_refit_bic <- abic_mat_fun(result_list = results_list, 3)
 refit_aic <- abic_mat_fun(result_list = result_refit, 2)
 refit_bic <- abic_mat_fun(result_list = result_refit, 3)
+scad_aic <- abic_mat_fun(result_list = scad_result, 2)
+scad_bic <- abic_mat_fun(result_list = scad_result, 3)
 
 # lamb_min_idx
 non_refit_lamb_a <- lam_min_idx_fun(non_refit_aic)
 non_refit_lamb_b <- lam_min_idx_fun(non_refit_bic)
 refit_lamb_a <- lam_min_idx_fun(refit_aic)
 refit_lamb_b <- lam_min_idx_fun(refit_bic)
+scad_lamb_a <- lam_min_idx_fun(scad_aic)
+scad_lamb_b <- lam_min_idx_fun(scad_bic)
 
 # change point
 non_refit_cp <- cp_fun(results_list)
 refit_cp <- cp_fun(result_refit)
+scad_cp <- cp_fun(scad_result)
 
 # final_result
 
@@ -66,8 +72,12 @@ non_refit_final_aic <- results_list_fin_fun(result_list = results_list, lam_min_
 non_refit_final_bic <- results_list_fin_fun(result_list = results_list, lam_min_idx = non_refit_lamb_b)
 refit_final_aic <- results_list_fin_fun(result_list = result_refit, lam_min_idx = refit_lamb_a)
 refit_final_bic <- results_list_fin_fun(result_list = result_refit, lam_min_idx = refit_lamb_b)
+scad_final_aic <- results_list_fin_fun(result_list = scad_result, lam_min_idx = scad_lamb_a)
+scad_final_bic <- results_list_fin_fun(result_list = scad_result, lam_min_idx = scad_lamb_b)
 
 save(non_refit_final_aic, file = "non_refit_final_aic.RData")
 save(non_refit_final_bic, file = "non_refit_final_bic.RData")
 save(refit_final_aic, file = "refit_final_aic.RData")
 save(refit_final_bic, file = "refit_final_bic.RData")
+save(scad_final_aic, file = "scad_final_aic.RData")
+save(scad_final_bic, file = "scad_final_bic.RData")
